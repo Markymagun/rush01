@@ -192,10 +192,10 @@ int solve(int grid[4][4], int *input, int pos)
 	num = 1;
 	while (num <= 4)
 	{
-		if (check_double(grid, row, col, num) == 1)
+		if (check_double(grid, row, col, num) == 1) //ตรวจ ถ้าผ่านจะได้ 1 ถ้าไม่ผ่านจะได้ 0
 		{
 			grid[row][col] = num;
-			if (solve(grid, input, pos + 1) == 1)
+			if (solve(grid, input, pos + 1) == 1) //recursion จนครบpos=16 แล้วไป check all ว่าถูกไหม
 			{
 				return (1);
 			}
@@ -205,6 +205,11 @@ int solve(int grid[4][4], int *input, int pos)
 	}
 	return (0);
 }
+
+//ห้อง 15 บอก: "ลองเลข 3 ซิ" -> ห้อง 16 บอก: "รหัสยังไม่เปิด (ผิดกฎ)" -> ถอยกลับมา 15
+// ห้อง 15 บอก: "งั้นเปลี่ยนเป็นเลข 4" -> ห้อง 16 บอก: "รหัสยังไม่เปิด (ผิดกฎ)" -> ถอยกลับมา 15
+// ห้อง 15 บอก: "หมดเลขให้ลองแล้ว!" -> ถอยกลับไปห้อง 14
+// ห้อง 14 บอก: "งั้นฉันเปลี่ยนเลขช่องฉันบ้าง... อะ ลองใหม่!" -> เดินหน้าไป 15 ใหม่ วนไปเรื่อยๆ
 
 void print_grid(int grid[4][4])
 {
@@ -246,8 +251,8 @@ int main(int argc, char *argv[])
 		write(1, "Error\n", 6);
 		return (0);
 	}
-	init_grid(grid);
-	if (solve(grid, input, 0) == 1)
+	init_grid(grid); //ถม 0
+	if (solve(grid, input, 0) == 1) //เริ่ม pos = 0
 	{
 		print_grid(grid);
 	}
